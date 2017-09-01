@@ -102,7 +102,10 @@ class RemindersController extends Controller
         ]);
 
         $credentials = $request->only(
-            'email', 'password', 'password_confirmation', 'token'
+            'email',
+            'password',
+            'password_confirmation',
+            'token'
         );
 
         $response = $this->passwords->reset($credentials, function ($user, $password) {

@@ -29,7 +29,6 @@ class AddSupportForOfflinePayments extends Migration
         ];
 
         DB::table('order_statuses')->insert($order_statuses);
-
     }
 
     /**
@@ -49,6 +48,5 @@ class AddSupportForOfflinePayments extends Migration
         });
 
         DB::table('order_statuses')->where('name', 'Awaiting Payment')->delete();
-
     }
 }

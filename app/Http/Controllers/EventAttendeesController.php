@@ -97,7 +97,7 @@ class EventAttendeesController extends MyBaseController
 
         return view('ManageEvent.Modals.InviteAttendee', [
             'event'   => $event,
-            'tickets' => $event->tickets()->lists('title', 'id'),
+            'tickets' => $event->tickets()->pluck('title', 'id'),
         ]);
     }
 
@@ -140,7 +140,6 @@ class EventAttendeesController extends MyBaseController
         DB::beginTransaction();
 
         try {
-
             /*
              * Create the order
              */
@@ -208,9 +207,7 @@ class EventAttendeesController extends MyBaseController
                     'event_id' => $event_id,
                 ]),
             ]);
-
         } catch (Exception $e) {
-
             Log::error($e);
             DB::rollBack();
 
@@ -219,7 +216,6 @@ class EventAttendeesController extends MyBaseController
                 'error'  => 'An error occurred while inviting this attendee. Please try again.'
             ]);
         }
-
     }
 
     /**
@@ -243,7 +239,7 @@ class EventAttendeesController extends MyBaseController
 
         return view('ManageEvent.Modals.ImportAttendee', [
             'event'   => $event,
-            'tickets' => $event->tickets()->lists('title', 'id'),
+            'tickets' => $event->tickets()->pluck('title', 'id'),
         ]);
     }
 
@@ -272,7 +268,6 @@ class EventAttendeesController extends MyBaseController
                 'status'   => 'error',
                 'messages' => $validator->messages()->toArray(),
             ]);
-
         }
 
         $ticket_id = $request->get('ticket_id');
@@ -280,7 +275,6 @@ class EventAttendeesController extends MyBaseController
         $email_attendee = $request->get('email_ticket');
         $num_added = 0;
         if ($request->file('attendees_list')) {
-
             $the_file = Excel::load($request->file('attendees_list')->getRealPath(), function ($reader) {
             })->get();
 
@@ -465,7 +459,7 @@ class EventAttendeesController extends MyBaseController
     {
         $data = [
             'event'   => Event::scope()->find($event_id),
-            'tickets' => Event::scope()->find($event_id)->tickets()->lists('title', 'id')->toArray(),
+            'tickets' => Event::scope()->find($event_id)->tickets()->pluck('title', 'id')->toArray(),
         ];
 
         return view('ManageEvent.Modals.MessageAttendees', $data);
@@ -612,7 +606,7 @@ class EventAttendeesController extends MyBaseController
         $data = [
             'attendee' => $attendee,
             'event'    => $attendee->event,
-            'tickets'  => $attendee->event->tickets->lists('title', 'id'),
+            'tickets'  => $attendee->event->tickets->pluck('title', 'id'),
         ];
 
         return view('ManageEvent.Modals.EditAttendee', $data);
@@ -675,7 +669,7 @@ class EventAttendeesController extends MyBaseController
         $data = [
             'attendee' => $attendee,
             'event'    => $attendee->event,
-            'tickets'  => $attendee->event->tickets->lists('title', 'id'),
+            'tickets'  => $attendee->event->tickets->pluck('title', 'id'),
         ];
 
         return view('ManageEvent.Modals.CancelAttendee', $data);
@@ -708,9 +702,9 @@ class EventAttendeesController extends MyBaseController
         $attendee->save();
 
         $eventStats = EventStats::where('event_id', $attendee->event_id)->where('date', $attendee->created_at->format('Y-m-d'))->first();
-        if($eventStats){
-            $eventStats->decrement('tickets_sold',  1);
-            $eventStats->decrement('sales_volume',  $attendee->ticket->price);
+        if ($eventStats) {
+            $eventStats->decrement('tickets_sold', 1);
+            $eventStats->decrement('sales_volume', $attendee->ticket->price);
         }
 
         $data = [
@@ -728,7 +722,6 @@ class EventAttendeesController extends MyBaseController
         }
 
         if ($request->get('refund_attendee') == '1') {
-
             try {
                 // This does not account for an increased/decreased ticket price
                 // after the original purchase.
@@ -749,7 +742,6 @@ class EventAttendeesController extends MyBaseController
                 $response = $request->send();
 
                 if ($response->isSuccessful()) {
-
                     // Update the attendee and their order
                     $attendee->is_refunded = 1;
                     $attendee->order->is_partially_refunded = 1;
@@ -768,11 +760,9 @@ class EventAttendeesController extends MyBaseController
                 } else {
                     $error_message = $response->getMessage();
                 }
-
             } catch (\Exception $e) {
                 \Log::error($e);
                 $error_message = 'There has been a problem processing your refund. Please check your information and try again.';
-
             }
         }
 
@@ -857,5 +847,4 @@ class EventAttendeesController extends MyBaseController
         }
         return view('Public.ViewEvent.Partials.PDFTicket', $data);
     }
-
 }

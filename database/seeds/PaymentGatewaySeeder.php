@@ -48,6 +48,5 @@ class PaymentGatewaySeeder extends Seeder
         ];
 
         DB::table('payment_gateways')->insert($payment_gateways);
-
     }
 }

@@ -100,7 +100,6 @@ Route::group(['prefix' => 'o'], function () {
         'as'   => 'showOrganiserHome',
         'uses' => 'OrganiserViewController@showOrganiserHome',
     ]);
-
 });
 
 /*
@@ -192,7 +191,6 @@ Route::group(['middleware' => ['auth', 'first.run']], function () {
             'as'   => 'postEditUser',
             'uses' => 'UserController@postEditUser',
         ]);
-
     });
 
     /*
@@ -218,7 +216,6 @@ Route::group(['middleware' => ['auth', 'first.run']], function () {
             'as'   => 'postInviteUser',
             'uses' => 'ManageAccountController@postInviteUser',
         ]);
-
     });
 
     Route::get('select_organiser', [
@@ -304,8 +301,7 @@ Route::group(['middleware' => ['auth', 'first.run']], function () {
         Route::get('{event_id}/dashboard/', [
                 'as'   => 'showEventDashboard',
                 'uses' => 'EventDashboardController@showDashboard',
-            ]
-        );
+            ]);
 
         Route::get('{event_id}', function ($event_id) {
             return Redirect::route('showEventDashboard', [
@@ -322,8 +318,10 @@ Route::group(['middleware' => ['auth', 'first.run']], function () {
                 $event = \App\Models\Event::scope()->findOrFail($event_id);
                 $event->is_live = 1;
                 $event->save();
-                \Session::flash('message',
-                    'Event Successfully Made Live! You can undo this action in event settings page.');
+                \Session::flash(
+                    'message',
+                    'Event Successfully Made Live! You can undo this action in event settings page.'
+                );
 
                 return Redirect::route('showEventDashboard', [
                     'event_id' => $event_id,
@@ -724,4 +722,3 @@ Route::get('/terms_and_conditions', [
         return 'TODO: add terms and cond';
     }
 ]);
-

@@ -38,5 +38,4 @@ class QuestionAnswer extends MyBaseModel
     {
         return $this->belongsTo(\App\Models\Attendee::class);
     }
-
 }

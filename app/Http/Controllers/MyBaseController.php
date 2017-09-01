@@ -8,7 +8,6 @@ use Auth;
 use JavaScript;
 use View;
 
-
 class MyBaseController extends Controller
 {
     public function __construct()

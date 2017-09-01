@@ -233,22 +233,19 @@ class Event extends MyBaseModel
             'Attendee Name',
             'Attendee Email',
             'Attendee Ticket'
-        ], $this->questions->lists('title')->toArray());
+        ], $this->questions->pluck('title')->toArray());
 
         $attendees = $this->attendees()->has('answers')->get();
 
         foreach ($attendees as $attendee) {
-
             $answers = [];
 
             foreach ($this->questions as $question) {
-
-                if (in_array($question->id, $attendee->answers->lists('question_id')->toArray())) {
+                if (in_array($question->id, $attendee->answers->pluck('question_id')->toArray())) {
                     $answers[] = $attendee->answers->where('question_id', $question->id)->first()->answer_text;
                 } else {
                     $answers[] = null;
                 }
-
             }
 
             $rows[] = array_merge([
@@ -257,7 +254,6 @@ class Event extends MyBaseModel
                 $attendee->email,
                 $attendee->ticket->title
             ], $answers);
-
         }
 
         return $rows;

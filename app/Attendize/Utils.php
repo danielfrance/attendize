@@ -92,11 +92,9 @@ class Utils
         }
 
         try {
-
             if (Auth::user()->account_id === $object->account_id) {
                 return true;
             }
-
         } catch (Exception $e) {
             return false;
         }

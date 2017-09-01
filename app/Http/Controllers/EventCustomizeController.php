@@ -110,7 +110,6 @@ class EventCustomizeController extends MyBaseController
             'status'  => 'success',
             'message' => 'Social Settings Successfully Updated',
         ]);
-
     }
 
     /**

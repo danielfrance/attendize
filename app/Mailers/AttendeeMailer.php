@@ -8,7 +8,6 @@ use Carbon\Carbon;
 use Log;
 use Mail;
 
-
 class AttendeeMailer extends Mailer
 {
 
@@ -30,7 +29,6 @@ class AttendeeMailer extends Mailer
 
             $message->attach($file_path);
         });
-
     }
 
     /**
@@ -44,11 +42,13 @@ class AttendeeMailer extends Mailer
 
         $attendees = ($message_object->recipients == 'all')
             ? $event->attendees // all attendees
-            : Attendee::where('ticket_id', '=', $message_object->recipients)->where('account_id', '=',
-                $message_object->account_id)->get();
+            : Attendee::where('ticket_id', '=', $message_object->recipients)->where(
+                'account_id',
+                '=',
+                $message_object->account_id
+            )->get();
 
         foreach ($attendees as $attendee) {
-
             $data = [
                 'attendee'        => $attendee,
                 'event'           => $event,
@@ -88,8 +88,5 @@ class AttendeeMailer extends Mailer
 
             $message->attach($file_path);
         });
-
     }
-
-
 }

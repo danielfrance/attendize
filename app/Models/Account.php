@@ -113,7 +113,8 @@ class Account extends MyBaseModel
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function gateways() {
+    public function gateways()
+    {
         return $this->account_payment_gateways();
     }
 
@@ -149,7 +150,7 @@ class Account extends MyBaseModel
     {
         $gateway = $this->getGateway($gateway_id);
 
-        if($gateway && is_array($gateway->config)) {
+        if ($gateway && is_array($gateway->config)) {
             return isset($gateway->config[$key]) ? $gateway->config[$key] : false;
         }
 

@@ -59,8 +59,11 @@ class EventCheckInController extends MyBaseController
                 $query->where('attendees.event_id', '=', $event_id);
             })->where(function ($query) use ($searchQuery) {
                 $query->orWhere('attendees.first_name', 'like', $searchQuery . '%')
-                    ->orWhere(DB::raw("CONCAT_WS(' ', attendees.first_name, attendees.last_name)"), 'like',
-                        $searchQuery . '%')
+                    ->orWhere(
+                        DB::raw("CONCAT_WS(' ', attendees.first_name, attendees.last_name)"),
+                        'like',
+                        $searchQuery . '%'
+                    )
                     //->orWhere('attendees.email', 'like', $searchQuery . '%')
                     ->orWhere('orders.order_reference', 'like', $searchQuery . '%')
                     ->orWhere('attendees.last_name', 'like', $searchQuery . '%');
@@ -211,5 +214,4 @@ class EventCheckInController extends MyBaseController
             'message' => $updateRowsCount . ' Attendee(s) Checked in.'
         ]);
     }
-
 }

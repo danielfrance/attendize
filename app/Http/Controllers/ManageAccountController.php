@@ -29,9 +29,9 @@ class ManageAccountController extends MyBaseController
     {
         $data = [
             'account'                  => Account::find(Auth::user()->account_id),
-            'timezones'                => Timezone::lists('location', 'id'),
-            'currencies'               => Currency::lists('title', 'id'),
-            'payment_gateways'         => PaymentGateway::lists('provider_name', 'id'),
+            'timezones'                => Timezone::pluck('location', 'id'),
+            'currencies'               => Currency::pluck('title', 'id'),
+            'payment_gateways'         => PaymentGateway::pluck('provider_name', 'id'),
             'account_payment_gateways' => AccountPaymentGateway::scope()->get(),
             'version_info'             => $this->getVersionInfo(),
         ];
@@ -127,25 +127,26 @@ class ManageAccountController extends MyBaseController
         $gateway_id = $request->get('payment_gateway_id');
 
         switch ($gateway_id) {
-            case config('attendize.payment_gateway_stripe') : //Stripe
+            case config('attendize.payment_gateway_stripe'): //Stripe
                 $config = $request->get('stripe');
                 break;
-            case config('attendize.payment_gateway_paypal') : //PayPal
+            case config('attendize.payment_gateway_paypal'): //PayPal
                 $config = $request->get('paypal');
                 break;
-            case config('attendize.payment_gateway_coinbase') : //BitPay
+            case config('attendize.payment_gateway_coinbase'): //BitPay
                 $config = $request->get('coinbase');
                 break;
-			case config('attendize.payment_gateway_migs') : //MIGS
-				$config = $request->get('migs');
-				break;
+            case config('attendize.payment_gateway_migs'): //MIGS
+                $config = $request->get('migs');
+                break;
         }
 
         $account_payment_gateway = AccountPaymentGateway::firstOrNew(
             [
                 'payment_gateway_id' => $gateway_id,
                 'account_id'         => $account->id,
-            ]);
+            ]
+        );
         $account_payment_gateway->config = $config;
         $account_payment_gateway->account_id = $account->id;
         $account_payment_gateway->payment_gateway_id = $gateway_id;

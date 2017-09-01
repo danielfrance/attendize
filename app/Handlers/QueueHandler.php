@@ -61,8 +61,11 @@ class QueueHandler
         $message_object = Message::find($data['message_id']);
         $event = $message_object->event;
 
-        $attendees = ($message_object->recipients == 0) ? $event->attendees : Attendee::where('ticket_id', '=',
-            $message_object->recipients)->where('account_id', '=', $message_object->account_id)->get();
+        $attendees = ($message_object->recipients == 0) ? $event->attendees : Attendee::where(
+            'ticket_id',
+            '=',
+            $message_object->recipients
+        )->where('account_id', '=', $message_object->account_id)->get();
 
         $toFields = [];
         foreach ($attendees as $attendee) {

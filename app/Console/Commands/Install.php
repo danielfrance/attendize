@@ -102,13 +102,11 @@ class Install extends Command
 
                 DB::commit();
                 $this->info('Admin User Successfully Created');
-
             } catch (Exception $e) {
                 DB::rollBack();
                 $this->error('Error Creating User');
                 $this->error($e);
             }
-
         }
 
 
