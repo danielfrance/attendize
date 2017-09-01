@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-
 use App\Jobs\SendOrderTickets;
 use App\Models\Attendee;
 use App\Models\Event;
@@ -230,11 +229,15 @@ class EventOrdersController extends MyBaseController
                 $error_message = 'This order has already been refunded';
             } elseif ($order->organiser_amount == 0) {
                 $error_message = 'Nothing to refund';
-            } elseif ($refund_type !== 'full' && $refund_amount > round(($order->organiser_amount - $order->amount_refunded),
-                    2)
+            } elseif ($refund_type !== 'full' && $refund_amount > round(
+                ($order->organiser_amount - $order->amount_refunded),
+                2
+            )
             ) {
-                $error_message = 'The maximum amount you can refund is ' . (money($order->organiser_amount - $order->amount_refunded,
-                        $order->event->currency));
+                $error_message = 'The maximum amount you can refund is ' . (money(
+                    $order->organiser_amount - $order->amount_refunded,
+                    $order->event->currency
+                ));
             }
             if (!$error_message) {
                 try {
@@ -299,15 +302,17 @@ class EventOrdersController extends MyBaseController
                 $attendee->save();
 
                 $eventStats = EventStats::where('event_id', $attendee->event_id)->where('date', $attendee->created_at->format('Y-m-d'))->first();
-                if($eventStats){
-                    $eventStats->decrement('tickets_sold',  1);
-                    $eventStats->decrement('sales_volume',  $attendee->ticket->price);
+                if ($eventStats) {
+                    $eventStats->decrement('tickets_sold', 1);
+                    $eventStats->decrement('sales_volume', $attendee->ticket->price);
                 }
             }
         }
 
-        \Session::flash('message',
-            (!$refund_amount && !$attendees) ? 'Nothing To Do' : 'Successfully ' . ($refund_order ? ' Refunded Order' : ' ') . ($attendees && $refund_order ? ' & ' : '') . ($attendees ? 'Cancelled Attendee(s)' : ''));
+        \Session::flash(
+            'message',
+            (!$refund_amount && !$attendees) ? 'Nothing To Do' : 'Successfully ' . ($refund_order ? ' Refunded Order' : ' ') . ($attendees && $refund_order ? ' & ' : '') . ($attendees ? 'Cancelled Attendee(s)' : '')
+        );
 
         return response()->json([
             'status'      => 'success',

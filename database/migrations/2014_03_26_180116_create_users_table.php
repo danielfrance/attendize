@@ -530,11 +530,10 @@ class CreateUsersTable extends Migration
 
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
 
-        foreach($tables as $table) {
+        foreach ($tables as $table) {
             Schema::drop($table);
         }
 
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
-
     }
 }

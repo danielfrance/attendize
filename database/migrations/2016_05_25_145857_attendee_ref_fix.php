@@ -20,7 +20,7 @@ class AttendeeRefFix extends Migration
 
         $attendees = Attendee::all();
 
-        foreach($attendees as $attendee) {
+        foreach ($attendees as $attendee) {
             $attendee->reference_index = explode('-', $attendee->reference)[1];
             $attendee->save();
         }
@@ -44,10 +44,9 @@ class AttendeeRefFix extends Migration
 
         $orders = Order::all();
         foreach ($orders as $order) {
-
             $attendee_count = 0;
 
-            foreach($order->attendees as $attendee) {
+            foreach ($order->attendees as $attendee) {
                 $attendee->reference = $order->order_reference. '-' . ++$attendee_count;
                 $attendee->save();
             }

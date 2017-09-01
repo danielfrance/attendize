@@ -37,7 +37,9 @@ class EventDashboardController extends MyBaseController
 
         $startDate = new DateTime("-$num_days days");
         $dateItter = new DatePeriod(
-            $startDate, new DateInterval('P1D'), $num_days
+            $startDate,
+            new DateInterval('P1D'),
+            $num_days
         );
 
         /*

@@ -43,6 +43,4 @@ class AttendeesApiController extends ApiBaseController
     public function destroy(Request $request)
     {
     }
-
-
 }

@@ -155,7 +155,6 @@ class EventSurveyController extends MyBaseController
         $question_type = QuestionType::find($question->question_type_id);
 
         if ($question_type->has_options) {
-
             // Get options.
             $options = $request->get('option');
 
@@ -185,7 +184,6 @@ class EventSurveyController extends MyBaseController
             'message'     => 'Refreshing..',
             'redirectUrl' => '',
         ]);
-
     }
 
     /**
@@ -204,7 +202,6 @@ class EventSurveyController extends MyBaseController
         $question->answers()->delete();
 
         if ($question->delete()) {
-
             session()->flash('message', 'Question Successfully Deleted');
 
             return response()->json([

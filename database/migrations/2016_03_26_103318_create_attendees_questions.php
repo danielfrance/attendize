@@ -16,8 +16,7 @@ class CreateAttendeesQuestions extends Migration
         /**
          * Checkbox, dropdown, radio, text etc.
          */
-        Schema::create('question_types', function (Blueprint $table)
-        {
+        Schema::create('question_types', function (Blueprint $table) {
             $table->increments('id');
             $table->string('alias');
             $table->string('name');
@@ -28,8 +27,7 @@ class CreateAttendeesQuestions extends Migration
         /**
          * The questions.
          */
-        Schema::create('questions', function (Blueprint $table)
-        {
+        Schema::create('questions', function (Blueprint $table) {
             $table->increments('id');
 
             $table->string('title', 255);
@@ -50,8 +48,7 @@ class CreateAttendeesQuestions extends Migration
         /**
          * Used for the questions that allow options (checkbox, radio, dropdown).
          */
-        Schema::create('question_options', function (Blueprint $table)
-        {
+        Schema::create('question_options', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             $table->integer('question_id')->unsigned()->index();
@@ -62,8 +59,7 @@ class CreateAttendeesQuestions extends Migration
         /**
          * Event / Question pivot table.
          */
-        Schema::create('event_question', function(Blueprint $table)
-        {
+        Schema::create('event_question', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('event_id')->unsigned()->index();
             $table->integer('question_id')->unsigned()->index();
@@ -75,8 +71,7 @@ class CreateAttendeesQuestions extends Migration
         /**
          * Question / Ticket pivot table.
          */
-        Schema::create('question_ticket', function (Blueprint $table)
-        {
+        Schema::create('question_ticket', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('question_id')->unsigned()->index();
             $table->integer('ticket_id')->unsigned()->index();

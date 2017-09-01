@@ -18,7 +18,6 @@ class OrderMailer
             $message->to($order->account->email);
             $message->subject('New order received on the event ' . $order->event->title . ' [' . $order->order_reference . ']');
         });
-
     }
 
     public function sendOrderTickets($order)
@@ -39,7 +38,5 @@ class OrderMailer
 
             $message->attach($file_path);
         });
-
     }
-
 }

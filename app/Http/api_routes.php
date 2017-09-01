@@ -49,6 +49,4 @@ Route::group(['prefix' => 'api', 'middleware' => 'auth:api'], function () {
             'Hello' => Auth::guard('api')->user()->full_name . '!'
         ]);
     });
-
-
 });

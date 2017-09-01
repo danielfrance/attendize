@@ -42,6 +42,4 @@ class EventsApiController extends ApiBaseController
     public function destroy(Request $request)
     {
     }
-
-
 }

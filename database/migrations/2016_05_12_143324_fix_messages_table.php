@@ -25,7 +25,7 @@ class FixMessagesTable extends Migration
      */
     public function down()
     {
-	    Message::where('recipients', null)->delete();
+        Message::where('recipients', null)->delete();
             Schema::table('messages', function ($table) {
                 $table->string('recipients')->nullable(false)->change();
             });

@@ -29,6 +29,4 @@ class EventWidgetsController extends MyBaseController
 
         return view('ManageEvent.Widgets', $data);
     }
-
-
 }
